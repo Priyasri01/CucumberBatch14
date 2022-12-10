@@ -1,0 +1,300 @@
+
+website for :
+
+here is the official Oracle Java doc on naming conventions (Sun Microsystems created Java, Oracle bought Sun Microsystems):
+https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html
+
+To know about Gherkin set of special keywords check the this link  https://cucumber.io/docs/gherkin/reference/
+
+ //https://www.swtestacademy.com/javascriptexecutor-in-selenium/ ---for JavaScript
+ =====================================================================================================
+why we learn java?
+we learn java to wirte a automation  script to automate the application.
+Why we learn selenium?
+it's testing  tool, which is used to test the website/webapplication.
+
+why we learn TestNG?
+  We learn testNG tool to make the script more organized more structure and so on. However, cumcumber play vital roll in the market so now are learning cucumber.
+  it's completely dependent on companies, whcih tools they are using(testng, cumcumber and so on).but majority of company uses cucumber tool.
+
+
+The reason for learning cucumber.
+Cucumber is a widely used tool for Behaviour Driven Development because it provides an easily understandable testing script for system acceptance and automation testing.
+Cucumber is a Behavior Driven Development tool used to develop test cases for the behavior of software's functionality. It plays a supporting role in automated testing.
+
+
+In other words,
+
+"Cucumber is a software tool used by the testers to develop test cases for the testing of behavior of the software."
+https://cucumber.io/docs/gherkin/reference/ --- for how to write cucumber scenario
+
+It follows a BDD (Behavior Driven Development) framework to observe the behavior of the software's functionalities.
+In the Cucumber testing, the test cases/scenario are written in a simple English text, which anybody can understand without any
+technical knowledge. This simple English text is called the Gherkin language.
+it's define application behaviour from end user point of view by using simple english text,define by language called Gherkin.
+
+It allows business analysts, developers, testers, etc. to automate functional verification and validation in an easily readable and understandable format (e.g., plain English).
+
+What is BDD?
+BDD (Behavioral Driven Development) is a software development approach that was developed from Test Driven Development (TDD).
+ the main purpose of using BDD approach is to reduce the communication gap among the collegues(team member) as well as in between technical and non technical people.
+
+Benefit of using BDD
+Collaboration
+Focus on End users
+Business values
+
+Short Ans: we use BDD scenarios to give a clear understanding to other colleagues in the team, it allows us to write scenarios in gherkin language.
+
+How we write the test case in gherkin language
+
+will write the test case in feature file.To write the BDD Scenarios in cucumber - we use special type of file (.feature file)
+
+Feature:(User stroy)
+Feature is nothing but user stroy, note: single user story might contain multiple test case which we call it as scenario  ex:Login functionality is single user story
+in that i can have multiple scenario/test cases like valid login, invalid login , Admin login, Employee login , manager login, HR Login and so on).so these all are will be my scenario
+under one feature/user story that is login. so we will right the user story in Feature.
+
+
+Scenario:(Test case)
+Every test case will be consider as scenario in BDD
+
+Every test case will have following steps inside the scenario.
+
+Given--(Stands for pre-requisite/pre-condition)
+When--(perform actions)
+And--(Supporting Tag)
+Then--(Expected output)
+
+but still all the above  steps are just declaration. and we right all the above under feature file that is having an extension ".feature " file. Then we have to do step definition
+
+Step definition:
+    cucumber provide us the snippet of step definition. In step definition, we write the code to perform actions which has been written in the BDD Statement.
+    for example when user click the login button this is BDD Statement. based on this statement we have to write the code(in selenium) inside the body to perform the actions(check below).
+
+
+ @When("user clicks on login button")
+    public void user_clicks_on_login_button() {
+        // login
+        WebElement logIn = driver.findElement(By.xpath("//*[@id='btnLogin']"));
+        logIn.click();
+    }
+snippet:small piece of the code, the head of the method basically(which cucumber will provide once we declare the scenario(above @when).
+
+Note: each funtion/method will have separate step declaration & step definition correspond to that , the maintains of automation script will be reduce by following cucumber approach.
+ meaning if we come across of any error in the script we don't have to check  the entire junk of code , we simply can go to that particular method and we can fix the error.
+ so the maintains of the  automation  script will be reduce.
+
+ Note: don't change anything in the steps in feature file or in stepclass after  we created the steps definition in step class.
+ if something changed on between either of one then we can't link them together.(link step declaration to and step definition).
+
+ General info:we have  1000 script/test cases , how we will automate ?
+-use testng or cucumber , we can create frame work and simply run with one click/point execution
+-and also we can execute without IDE execution from command line
+-and with the  help of detailed Report. these are some adv
+
+GropuID--->is always start with org. followed by company name.
+ArtifacID--->is project name. once we type project name on  the artifactId feild the same name will reflect on the name feild too.
+
+in pom.xml
+
+<groupID>--->Name of the organisation
+<artifactID>---Project name
+<properties>---> will have jdk version..based on the jdk version the number might be different for each people.
+
+to use the cucumber tool we need to have the following dependencies.
+
+-java which we already have in properties.
+so we need to add the below dependency in xml files
+
+-selenium
+
+-cucumber
+
+-cucumber-junit (cucumber need junit to run the script, so we have to download cumcumber-juint also.
+note: we have to take same verion for cumcumber.java & cucumber.junit to maintain the compatibility between these two)
+
+-webDriverManager( since we have  webdriver manager in depedency  we don't have to take care the path(which is link the class to webdriver to
+ excute by using setproperty)  and we  don't have to take care space management (meaning for cross browser testing i don't want to add the webbroweser like firefox,chrome and ect).
+and we don't have to take care of the compatibility on the project. our project always want to be lighter weight(meaning try to have the projects in MB's)so all these things will be taken care by webdriver manager, therefore we having this depedency.
+
+-apache-poi (to load the file ,read the file , to extract the data and to convert the data into java format , we need to have all  these appache-poi and commons-io dependency )
+
+-apache -poi -ooxml
+
+-commons-io
+
+ note : why we are not downloading jar rather we are downloading depedency?
+ because jar will add only to my machine/local where as dependecy will add to the central repositary.
+ so when we work in team if i uploaded to git every other team memeber can take it and will able  run my code in there machine also.
+
+
+ Different between jars , dependency & plugin:
+
+ jars:
+  when you add file inside to your machine(which is local), and will open/access by providing the path is called jars
+
+ Dependency:
+    dependency will provide the link to get the data/file/jars from the remote repository(maven).in jars all files are physically available in your local machine(meaning all the files are stored in local machine).
+
+ plugins:
+    pluging is basically giving you the additional flexibility &features to your framework.
+
+
+    note: to write the BDD Scenarios in cucumber -we use special of file(which extention is .feature)
+
+snippet:small piece of the code, the head of the method basically(which cucumber will provide once we declare the scenario(below @given).
+
+Example:
+
+User story 1234 -search an employee
+
+search by id
+
+Given user navigates to HRMS Application
+When user enters valid user name and password
+And user clicked the login button
+Then user navigates to Dashboard page
+When user click the PIM Options
+And user click the Employee list information button
+When user enters emplpyee id
+And user clicks on the search button
+Then user see the employee information is diplayed
+
+Search by name
+
+Given user navigates to HRMS Application
+When user enters valid user name and password
+And user clicked the login button
+Then user navigates to Dashboard page
+When user click the PIM Options
+And user click the Employee list information button
+When user enters emplpyee name
+And user clicks on the search button
+Then user see the employee information is diplayed
+
+
+Difference between validation and verification:
+
+Verification vs Validation
+Verification -  when we check the existence of the feild is called verification
+Validation -when we check the existence of the feild  and correctness(meaning is the text have same  of the feild is called validation checking the correctness of the field after existence
+
+==========================================================================================================================================
+class-02
+
+Runner Class:
+Runner class: to execute all the feature files or one of the feature file  from the framework we need to have  one special type of java class,
+which we called  as Runner class.
+we can run the features one by one but we use runner class to organise them in a way that we want to run multiple features together like for smoke testing regression testing etc.
+To run the test cases cucumber need support of what?
+junit
+
+In cucumber package we have java part & non java part all together, whcih is not framework all the folder are not segregation.
+Java part-- StepDefclass, Runner class , util and so --> ( as we know we will have multiple step definition class ,
+ runner class and util class so we want to have seperate package for all these under java part.)
+non java part- feature file  , config and so on.. ( same we will have multiple feature file, multiple config file so we need to have separate directory for these)
+
+What is frameworkK?
+organized folder a structure which allows you to write a specific type of code at specify type of place.  this is what we called as frame work.
+
+As we know to keep everything organised we need framework-
+Framework allows you to write simplified and organized code and it provides folder to structure which is easily understandable.
+
+Characteristic of framework:
+    -should be easily understandable
+    -should provide organized structure
+    -and should encourage code re-usability these are some important characteristic of framework
+
+
+In frame work we have two separate branch for  Java  and Non-Java
+
+ Java --> in java part, we write all java class
+ Non-Jave---> in non-java part, we write non-java part such as Features, config etc
+
+under test Package by default  we have java folder and we created a resource directory also .
+all the java related part(setpdefcalss,Runner class,utils and so on) will be under Java branch and all the non-Java part(features,config and so on) will be under resource directory .
+
+under java branch we have the following package and each package has it's own class.
+
+stepsDefinition(package) --- For every feature file we are creating separate class for steps definition  under Steps package.-->for all step definition
+-DashbaordSteps(class)
+-loginSteps(class) and so on..
+
+utils(package)-- whatever things  that are common for complete framework(project), it will go under untils package.--->for all comman class for complete framework
+-CommonMethods(class) --whatever method which common for my project i will right in this class.(ex:openBrowserAndLaunchApplication and so on..)
+-configReader(class)---This class, will carry methods which help in read/load  and retrieve the data from the properties file , by just passing the parameterized data.(note: in here we will pass only the reference variable for Path)
+-constants(class) and so on.. ---this class , will carry all the path of all the files which are not changeable  through the  project which we call it as constant. (ex:config.properties path will always constant , excel path will be the same, report path , screen shot path and    so on..will be same)
+
+runners(Package)--->for all runner classes
+-Smoke(class)
+-Regression(class)
+
+under the resource directory, we have the following directory and each directory will have it's own set of file.
+config(directory)--under config directory we will have all the config details(like url, browser,credentials details) ---> for all config files
+ -config.properties and so on... (in properties file, we are passing the data in terms of key and value)
+
+features(directory)--->for all feature files
+-login.feature
+-Dashboard.feature  and so on..
+
+======================================================================================================================================================================
+Class-03
+Recap-BDD- Behavioral driven development
+because the explanation part was available in diagram
+more details in the power point
+presentation
+
+====================================================================================================================================================
+class 4-
+
+Recap
+Runner class - cucumber options in runner class
+
+feature, glue,dryRun, tags, monochrome, plugins and so on...
+
+
+package runners;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)//This @Runwith comes from junit , and asking them to runwith cucumber as class by just lable cucumber.class inside ().
+@CucumberOptions( //inside the body will provide the feature file which we need to execute.
+
+       // to run the feature file , we provided a  path of its repository(directory)
+        features = "src/test/resources/features/",/*note we are providing the features package path along with  "/" at the end ,
+        so that we don't want  to hard code the path for each and every feature file.
+        it will automatically will execute all the files available under features directory. */
+
+        glue = "steps",/*this cucumber option "glue" will provide the path of the steps definition package
+        // which carry all steps definition data .it's basically  connects the step declaration and steps definition together.*/
+
+        //note: when you put two cucumberOptions , make sure to put comma in between. features is one cucumberOptions and glue is another cucumberOption
+
+
+        dryRun = false,  /*by default dryRun =true , once we add step declaration in feature file , we will come to runner class and will we set  dryRun =true.
+         so that it will stop actual execution and scans all the steps Quick and provide us missing step definition in the console. copy the steps definition and create class for it.
+        please not once we created class for the step definition , ensure that we changed back the dryRun = false , so that it will execute the code.  */
+
+       tags = "@tc1103", // to group the scenario for specific type of execution
+
+        monochrome = true, //to remove irrelavant information from console, you need to set monochrome to true
+
+        plugin = {"pretty"} //pretty keywords prints the steps in the console to increase readability
+)
+
+public class SmokeRunner {
+
+}
+
+About POM---Page object model--> it is a design pattern
+
+it allows QA's to keep object repository -- in simple language , QA's write all the locators of the page in respective class
+
+Pages(it's package)
+LoginPage - in loginPage class we will keep all the locator of the loginPage
+DashboardPage- in this class we will keep all the locator of the dashboard page
+
+so, this how the pom patter shows.
