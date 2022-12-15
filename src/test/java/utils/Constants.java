@@ -8,6 +8,10 @@ public class Constants {
             System.getProperty("user.dir") + "/src/test/resources/config/config.properties"; /*this .getProperty("user.dir")will provide the root path and after /scr...
      will same among all team members.so by adding these two (both user.dir and  /src...config.properties)  for everyone on the team will the common path. */
     public static final int EXPLICIT_WAIT = 20;
-    public static final int IMPLICIT_WAIT = 10;
+    public static final int IMPLICIT_WAIT = 20;
 
+    public static final String TESTDATA_FILEPATH =
+            System.getProperty("user.dir") + "/src/test/resources/testdata/Batch14Excel.xlsx";
+
+    public static final String SCREENSHOT_FILEPATH =   System.getProperty("user.dir") + "/screenshots/";
 }

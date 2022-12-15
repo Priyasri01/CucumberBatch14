@@ -3,6 +3,7 @@ package steps;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,7 +16,8 @@ public class LoginSteps extends CommonMethods {
     // WebDriver driver;
     @Given("user is navigated to HRMS application")
     public void user_is_navigated_to_hrms_application() {
-        openBrowserAndLaunchApplication(); // Note we called this static method without the class name or object name because this class is extends to  commonMethods  class(child & parent)
+        openBrowserAndLaunchApplication(); /*Note we called this static method without the class name or object name
+        // because this class is extends to  commonMethods  class(child & parent)*/
         // WebDriverManager.chromedriver().setup();
         // driver=new ChromeDriver();
         // driver.get("http://hrm.syntaxtechs.net/humanresources/symfony/web/index.php/auth/login");
@@ -25,7 +27,9 @@ public class LoginSteps extends CommonMethods {
 
     @When("user enters valid username and valid password")
     public void user_enters_valid_username_and_valid_password() {
-        LoginPage login = new LoginPage(); //create instance for Loginpage class which carry all the locator for loginpage(Repository).
+      //  LoginPage login = new LoginPage();
+      /* the reason we commit login page is because we created  object for all the page in the PageInitializer class(in steps package)
+        and we called it's method in commonMethod class after openBrowser&launchApplication method.  */
         //WebElement usernameField = driver.findElement(By.id("txtUsername"));
         // usernameField.sendKeys(ConfigReader.getPropertyValue("username"));
         sendText(login.usernameTextField,ConfigReader.getPropertyValue("username"));
@@ -36,15 +40,20 @@ public class LoginSteps extends CommonMethods {
 
     @When("user clicks on login button")
     public void user_clicks_on_login_button() {
-        LoginPage login = new LoginPage();
+      //  LoginPage login = new LoginPage();
         //WebElement loginButton = driver.findElement(By.id("btnLogin"));
         click(login.loginButton); // in here we are calling this method(click())from commonMethod class.
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Then("user is successfully logged in")
     public void user_is_successfully_logged_in() {
-        WebElement welcomeMessage = driver.findElement(By.id("welcome"));
-        if (welcomeMessage.isDisplayed()) {
+     //   WebElement welcomeMessage = driver.findElement(By.id("welcome"));
+        if (dashboard.welcomeMessage.isDisplayed()) {
             System.out.println("Test case is passed");
         } else {
             System.out.println("Test is failed");
@@ -54,7 +63,7 @@ public class LoginSteps extends CommonMethods {
 
     @When("user enters ess username and ess password")
     public void user_enters_ess_username_and_ess_password() {
-        LoginPage login = new LoginPage();
+       // LoginPage login = new LoginPage();
         // WebElement usernameField = driver.findElement(By.id("txtUsername"));
          /*note we taken the same locator what we have in line 26("user enters valid username and valid password").
        because instead of admin login in here we are login as normal employee */
@@ -65,7 +74,7 @@ public class LoginSteps extends CommonMethods {
 
     @When("user enters invalid username and password")
     public void user_enters_invalid_username_and_password() {
-        LoginPage login = new LoginPage();
+      //  LoginPage login = new LoginPage();
         // WebElement usernameField = driver.findElement(By.id("txtUsername"));
         sendText(login.usernameTextField, "admin123");
         //  WebElement passwordField = driver.findElement(By.id("txtPassword"));
@@ -74,6 +83,18 @@ public class LoginSteps extends CommonMethods {
 
     @Then("error message displayed")
     public void error_message_displayed() {
+
         System.out.println("Error message displayed");
     }
+
+    @When("user enters different {string} and {string} and verify the {string} for it")
+    public void user_enters_different_and_and_verify_the_for_it(String username, String password, String errorMessage) {
+        sendText(login.usernameTextField, username);
+        sendText(login.passwordTextField, password);
+        click(login.loginButton);
+
+        String errorActual =  login.errorMessage.getText();
+        Assert.assertEquals(errorMessage, errorActual);
+    }
+
 }

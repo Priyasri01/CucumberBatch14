@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.CommonMethods;
 
-public class LoginPage extends CommonMethods {  // we can achieve this concept(POM) with the help of page factory
+public class LoginPage extends CommonMethods {  ////find the locators for all the webelements that are present on the login page
 
     @FindBy(xpath ="//input[@id='txtUsername']") // to create the object repository we have to use @find by
     public WebElement usernameTextField;
@@ -16,6 +16,8 @@ public class LoginPage extends CommonMethods {  // we can achieve this concept(P
     @FindBy(xpath="//input[@id='btnLogin']")
     public WebElement loginButton;
 
+    @FindBy(xpath="//*[@id='spanMessage']")
+    public WebElement errorMessage;
 
     public LoginPage(){ //created this constructor to initialize all the element
         //call selenium page factory ,because all the above variables are created for locator. so we have to call this class to  initialize the variable

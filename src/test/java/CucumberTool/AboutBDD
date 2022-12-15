@@ -34,6 +34,8 @@ technical knowledge. This simple English text is called the Gherkin language.
 it's define application behaviour from end user point of view by using simple english text,define by language called Gherkin.
 
 It allows business analysts, developers, testers, etc. to automate functional verification and validation in an easily readable and understandable format (e.g., plain English).
+Note:
+automation all about increase the performance and increase the productivity . Automation is all about having more accurate result in minimum time.
 
 What is BDD?
 BDD (Behavioral Driven Development) is a software development approach that was developed from Test Driven Development (TDD).
@@ -298,3 +300,269 @@ LoginPage - in loginPage class we will keep all the locator of the loginPage
 DashboardPage- in this class we will keep all the locator of the dashboard page
 
 so, this how the pom patter shows.
+
+
+==================================================
+class 05
+
+Recap
+Ruuner class:
+to run the test case as per the requirement. for  example if we want to run all the test cases we can run  by just put "/" at the end of feature
+and just inter connect the steps definition to step by just mentioning the pakage name in glue ex: glue=steps.
+or in case  if i want to run only my regression test cases we can..or if i want to run only
+the specific sprint then i can run that as well.  so,basically to run specific test cases according to the  need of my project we can customize this,
+by just changing the tag name. one of the biggest advantage of having runner class is to excute our test cases as per our choice.
+And with this same class(runner class) i can generate steps definition for the feature files.by just changing dryRun=true.
+Short Ans:
+with the help of runner class we can achieve the below stuff
+-use runner class to run/execute test cases as per the requirement.
+-to generate missing steps
+-to print the steps into the console with the help of plugin={pretty}
+-And to generate the report
+
+POM---Page object model--> it is a design pattern
+Why we need page object model?
+to have organised  code and easy to maintain the structure.
+we create separate class(page) and have locators for all the web element which are exist in a particular
+screen/page in the application.
+so basically creating separate class for each pages(like login page, dashboard page,and so on) and having their locators for all the web element.
+
+ Page object model - to have organised code and easy to maintain structure
+        according to it, we create separate class (page) according to the
+        screens available in the application and keep all the locators of this page
+        in it.
+
+ ex:POM
+
+ public class AddEmployeePage extends CommonMethods {
+
+     @FindBy(id = "firstName")
+     public WebElement firstNameField;
+
+     @FindBy(id = "lastName")
+     public WebElement lastNameField;
+
+     @FindBy(id = "middleName")
+     public WebElement middleNameField;
+
+     @FindBy(id = "photofile")
+     public WebElement photograph;
+
+     @FindBy(id = "chkLogin")
+     public WebElement checkBox;
+
+     @FindBy(id = "user_name")
+     public WebElement createusernameField;
+
+     @FindBy(id = "user_password")
+     public WebElement createpasswordField;
+
+     @FindBy(id = "re_password")
+     public WebElement confirmpasswordField;
+
+     @FindBy(id = "btnSave")
+     public WebElement saveButton;
+
+     public AddEmployeePage(){
+         /*page factory is the concept of selenium which we use to implement page
+     object model design patter which is responsible to initialize all the objects
+       of the class . In here when we say objects we mean locators what we also call object repository
+       if someone ask this to you in the interview you have to write the same thing */
+         PageFactory.initElements(driver, this);
+     }
+ }
+
+
+
+
+Hooks - we write pre condition and post condition for the entire project  using hooks in cucumber. currently we use two hooks in this class (before & after)
+    @Before - pre condition needs to be mentioned in this
+    @After - post condition needs to be mentioned in this
+
+Rules - Hooks class must be created inside steps package.Why?because according to the framework all the step definition found under steps package.
+ if we have hook inside the steps package it will execute the per-condition(openBrowser&launchApplication) first and then step definition
+ and after all the step definition completed then it will execute  post-condition, which @after(closeBrowser).
+
+Background -
+             if we have same steps in all  scenarios in same feature file we can put them in  background and will execute before each scenario.
+             it is applicable only for one feature file ,  it means for every feature file background will be different
+             steps which are common among all the scenarios of that feature file , will be taken into background but make sure the flow is not broken.
+             if the flow breaks, then we cannot take steps in background after that.  meaning, background has to be in the beginning of each scenario not in the middle or at the end
+
+example:
+Feature: Employee Search
+
+  Background: // note before any test scenario/case  background will execute
+   # Given user is navigated to HRMS application
+    When user enters valid username and valid password
+    And user clicks on login button
+    Then user is successfully logged in
+    When user clicks on PIM option
+    And user clicks on EmployeeList option
+
+@batch14 @sprint4
+Scenario: Search employee by id
+  #Given user is navigated to HRMS application
+When user enter valid employee id
+And user clicks on search button
+Then user see employee information is displayed
+
+
+  @sprint5 @test
+  Scenario: Search employee by name //note all the below steps whcih have -->"#" commit because  it's common steps among all the scenario in this particular feature file,
+  so we called these steps in one place(Background) which will applicable for the all the scenario in this particular feature file
+    #Given user is navigated to HRMS application
+   # When user enters valid username and valid password
+   # And user clicks on login button
+   # Then user is successfully logged in
+    #When user clicks on PIM option
+   # And user clicks on EmployeeList option
+    When user enters valid employee name
+    And user clicks on search button /* note these two also common steps in all the scenario, but the flow broken at "When user enters valid employee name".
+     so we can't take any steps after they broken the flow */
+    Then user see employee information is displayed
+
+Hooks VS background
+
+Hooks are applicable for whole project (for all the feature files)
+Background is applicable for one feature file and varies from file to file
+First Hooks execute then background execute then scenario execute
+
+Note : cucumber allow you to pass the data directly from your feature file.
+
+can we add the employee using automation script(meaning from feature file)--- yes we can but not only single employee we can also add multiple employee
+
+what is DDT?
+When  one test case execute against multiple sets of data we called it data driven testing.
+
+example:
+Feature: Add Employee
+
+  Background:
+    # Given user is navigated to HRMS application // this is the precondition of my entire project.
+    When user enters valid username and valid password
+    And user clicks on login button
+    Then user is successfully logged in
+    When user clicks on PIM option
+    And user clicks on Add Employee button
+
+  @sprint3 @regression
+  Scenario: Adding one employee
+    And user enter firstname and lastname
+    And user clicks on save button
+    Then employee added successfully
+
+//note:parameterization testing for add one data
+ --we can add one employee using feature file , instead of hardcode data in the steps class. we can just pass values inside the scenario.check the below example @test1
+  @test1 #we add the employee using automation script(meaning from feature file).
+  Scenario: Adding one employee using feature file
+    And user enter "zalam" and "alia"  # we passing direct value
+    And user clicks on save button
+    Then employee added successfully
+
+//note:parameterization testing for adding multiple data
+as we know to increase the scope of testing, we use data driven testing concept .so instead of just scenario , we use scenario outline
+with example of table to add/pass multiple data in scenario.like in examples table, we pass multiple data sets using keys and values.
+ so by using this keys and value we are implementing data driven testing in feature file.check below @outilne
+ And please note one big draw back of using this approach(scenario Outilne) is for every entry it have to open the
+ browser and close the browser again and again.(meaning, it will execute every time hook, background and scenario for every entry).
+  @outline
+  Scenario Outline: Adding multiple employees using feature file # this is basically we are performing DDT
+    And user  enter "<firstName>" and "<lastName>" for adding multiple employee /*note instead pass the data we are passing key in the scenario
+    and inside the example we passing the multiple value for the key. so by this procedure we can pass multiple data on single test case.*/
+    And user clicks on save button
+    Then employee added successfully
+    Examples:
+      | firstName | lastName |
+      |gulnam     |mazar     |
+      |rampal     |chambel   |
+      |azam       |asel      |
+
+@tc1105
+  Scenario Outline: Invalid login functionality // note for checking invalid functionality, it's ideal to use Senario outline, because after every entry we have to close and open for new entry to check the credential.
+    When user enters different "<username>" and "<password>" and verify the "<error>" for it
+    Examples:
+      | username | password | error |
+      |admin     |cristiano |Invalid credentials|
+      |ronaldo   |Hum@nhrm123|Invalid credentials|
+      |          |Hum@nhrm123|Username cannot be empty|
+      |admin     |           |Password cannot be empty|
+
+  @datatable // with this approach we can pass multiple sets of data  with one login and logout(meaning it will run one time hook , one time background and everytime  datable)
+  Scenario: Adding multiple employees using data table
+    When user adds multiple employees and verify they are added successfully ---//note in here we are not providing headings like example, and also we don't have to pass any key in the senario .
+      |firstName|middleName|lastName|--> it's key  and we have multiple data for the key.it' means will generate map for every row . so, with this approach we will get list of MAPs.
+      |zara    |MS        |camilullah|
+      |birgul  |MS        |ozgin     |
+      |alina   |MS        |bob       |
+
+Feature: Dashboard  functionality
+
+  @sprint2 @regression
+  Scenario: Verify dashboard
+    #Given user is navigated to HRMS application
+    When user enters  valid username and valid password
+    And user clicks on login button
+    Then user successfully logged in
+    Then user verify the dashboard page
+    Then user verify the dashboard Tabs
+    |Admin|PIM|Leave|Time|Recruitment|Performance|Dashboard|Directory|
+
+ Ex: DashboardSteps class(verify the dashboard tags.)
+ public class DashboardSteps extends CommonMethods {
+
+     /* note in Dashboard feature file  we have 5 steps from navigate hrms  to verify dashboard.
+      but we have given definition  for only one tag(verify the dashboard page) in here because the speciality of cucumber(code re-usability) in case if you want use the same steps declaration
+      form one feature to another ,  we can simply copy and paste the step declaration from one
+  feature to another along with the new step. and create step definition class only  for the new one which included in the feature.
+  Because all other old steps which are already linked to other class.*/
+
+     //note:when we copy the feature steps, we are  not only copying  the declaration, we are copying step definition also .
+
+     @Then("user verify dashboard page")
+     public void user_verify_dashboard_page() {
+         System.out.println("Batch 14 is happy now");
+     }
+ // note this step definition we added recently when they as to verify the dashboard tags.
+     @Then("user verify all the dashboard tabs")
+     public void user_verify_all_the_dashboard_tabs(DataTable dataTable) {
+         List<String> expectedTabs = dataTable.asList();  /*we are getting the data in list because the  data is coming from feature file carry only the value
+        this dataTable contains all the dta from feature files  and we have to confirm the data comes as what. in this scenario the data comes asList.(.asList())*/
+
+
+         List<String> actualTabs = new ArrayList<>(); /*created this list , to compare the expected  output to actual output for the verification. note we created this as Arraylist.
+         because we are just retrieve the data what ever available inside this list(actualTabs) and comparing with expectedTabs.*/
+
+         for (WebElement ele :dashboard.dashboardTabs)//using this loop to retrieve the webelement from dashboard page.
+          {
+             actualTabs.add(ele.getText());// using this add method to get the text from dashboardTabs and store into actualTabs.
+         }
+
+         //printing the text for both feature file and from application, just for our understanding  we are using sout
+         System.out.println(expectedTabs); // note: this expectedTabs list comes from feature file
+         System.out.println(actualTabs);// and this actualTabs list comes from DashboardPage class. and  we are comparing these both list with the help of Assert for the verification.
+
+         //.equals is the method we use to compare 2 lists together
+         //assertTrue is a boolean condition which returns true if condition is satisfy
+        // Assert.assertTrue(expectedTabs.equals(actualTabs));
+        Assert.assertEquals(expectedTabs,actualTabs); //note both Assert will provide the same output, only the way of approach is different(one is assertTrue & assertEuals)
+     }
+ }
+
+Different between Scenario outline & Data Table:
+
+   Examples table(Scenario outline)-- hooks and background execute every time as per the data set(ex: if we have 4 data entry, it will execute 4 times  hook , 4 times background and 4 times scenario)
+   Data Table--- hooks and background will execute just one time and everytime data table.
+  @excel
+  Scenario: Adding multiple employees using excel file
+    When user adds multiple employee from excel using "EmployeeData" and verify it
+
+    class 06:
+
+    Recap- Page object model with PageInitializer class
+    in this initializer class,we initialize objects for all the  of page classes and call the method(intializePageObjects()) in commonMethod class
+    inside the openBrowser method.
+
+    we created a collection point in steps classes:
+    - step class call the method from CommonMethod class and calling the locators from respective page classes using the object of that class.
+

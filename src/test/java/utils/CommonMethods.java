@@ -1,18 +1,23 @@
 package utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.xml.DOMConfigurator;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import steps.PageInitializer;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class CommonMethods { /*we created this commonMethods class and store all the common methods(like open Browser, launch application , close the browser,
+public class CommonMethods extends PageInitializer { /*we created this commonMethods class and store all the common methods(like open Browser, launch application , close the browser,
   click, sendkeys and so on)which are used throughout the framework.*/
 
     public static WebDriver driver; //launch in one place and call it the whole class.
@@ -35,10 +40,11 @@ public class CommonMethods { /*we created this commonMethods class and store all
         driver.manage().window().maximize();
         driver.get(ConfigReader.getPropertyValue("url")); // in here we are calling the getPropertyValue()method from configReader class to launch the application.
         driver.manage().timeouts().implicitlyWait(Constants.IMPLICIT_WAIT, TimeUnit.SECONDS); //in here we provided the implicit wait(global wait)
+        intializePageObjects(); // now we are calling this method to utilize it.
+
     }
 
-public static void closeBrowser(){ // create this method    to close the browser
-
+public static void closeBrowser(){ // create this method to close the browser
         driver.quit();
 }
 
@@ -114,5 +120,26 @@ public static Select getSelObj(WebElement element){
      getSelObj(element).selectByVisibleText(text);
  }*/
 
+    public static byte[] takeScreenshot(String fileName){
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        byte[] picBytes = ts.getScreenshotAs(OutputType.BYTES);
+        File sourceFile =  ts.getScreenshotAs(OutputType.FILE);
+
+        try {
+            FileUtils.copyFile(sourceFile,
+                    new File(Constants.SCREENSHOT_FILEPATH + fileName + " " +
+                            getTimeStamp("yyyy-MM-dd-HH-mm-ss")+".png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return picBytes;
+    }
+
+    public static String getTimeStamp(String pattern){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(date);
+    }
 
 }

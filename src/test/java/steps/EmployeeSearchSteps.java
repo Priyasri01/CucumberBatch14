@@ -11,21 +11,24 @@ public class EmployeeSearchSteps extends CommonMethods {
 
     @When("user clicks on EmployeeList option")
     public void user_clicks_on_employee_list_option() {
-        WebElement empListOption = driver.findElement(By.id("menu_pim_viewEmployeeList"));
-        click(empListOption); //in here we are calling click()method from CommonMethod class
+     //   WebElement empListOption = driver.findElement(By.id("menu_pim_viewEmployeeList"));
+      //  click(empListOption); //in here we are calling click()method from CommonMethod class
+        click(dashboard.empListOption);
     }
 
 
     @When("user enter valid employee id")
     public void user_enter_valid_employee_id() {
-        WebElement empIdField = driver.findElement(By.id("empsearch_id"));
-        sendText(empIdField, "45154A"); //both will work line 22 & 23
+       // WebElement empIdField = driver.findElement(By.id("empsearch_id"));
+       // sendText(empIdField, "45154A"); //both will work line 22 & 23
         //sendText(empIdField, ConfigReader.getPropertyValue("empID")); // don't add empID Inside the config.properties , the main purpose of the config is for configuration
+    sendText(employeeList.empSearchIdField,"45154A");
     }
     @When("user clicks on search button")
     public void user_clicks_on_search_button() {
-        WebElement searchButton = driver.findElement(By.id("searchBtn"));
-        click(searchButton);//in here we are calling click()method from CommonMethod class
+      //  WebElement searchButton = driver.findElement(By.id("searchBtn"));
+      //  click(searchButton);//in here we are calling click()method from CommonMethod class
+        click(employeeList.searchButton);
     }
     @Then("user see employee information is displayed")
     public void user_see_employee_information_is_displayed() {
@@ -34,8 +37,8 @@ public class EmployeeSearchSteps extends CommonMethods {
     }
     @When("user enters valid employee name")
     public void user_enters_valid_employee_name() {
-        WebElement searchNameField = driver.findElement(By.id("empsearch_employee_name_empName"));
-        sendText(searchNameField, "dawggy"); //in here we calling senText()method from CommonMethod class
-
+      //  WebElement searchNameField = driver.findElement(By.id("empsearch_employee_name_empName"));
+      //  sendText(searchNameField, "dawggy"); //in here we calling senText()method from CommonMethod class
+sendText(employeeList.empSearchNameField,"dawggy");
     }
 }
