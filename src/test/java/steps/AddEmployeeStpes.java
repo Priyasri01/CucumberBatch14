@@ -114,26 +114,30 @@ public class AddEmployeeStpes extends CommonMethods {
     public void user_adds_multiple_employee_from_excel_using_and_verify_it(String sheetName)  {
 
         List<Map<String, String>> empFromExcel =
-                ExcelReader.excelListIntoMap(Constants.TESTDATA_FILEPATH, sheetName);
+                ExcelReader.excelListIntoMap(Constants.TESTDATA_FILEPATH, sheetName); /* in here to read the file we are  calling the method from ExcelReader class
+                 which is excelListtoMap in which we have ![](../../../../../../AppData/Local/Temp/image.png)the code to read the excel file and passing the path and sheetName
+                 (path name comes from constant class & sheetname comes from feature file) inside the parameter*/
 
 
         //it returns one map from list of maps
-        Iterator<Map<String, String>> itr = empFromExcel.iterator();
+        Iterator<Map<String, String>> itr = empFromExcel.iterator(); //we will get one map at time with the help of iterator
+
         while (itr.hasNext()){
             //it returns the key and value for employee from excel
             Map<String, String> mapNewEmp = itr.next();
-
-            sendText(addEmployee.firstNameField, mapNewEmp.get("firstName"));
-            sendText(addEmployee.middleNameField, mapNewEmp.get("middleName"));
-            sendText(addEmployee.lastNameField, mapNewEmp.get("lastName"));
+/*once we get the key & value form the map we stored in mapNewEmp variable above(in line 127)and now ,
+we are sending the data to the application(hrms) with the help of sendtext()method */
+            sendText(addEmployee.firstNameField, mapNewEmp.get("firstName")); //sending firstname
+            sendText(addEmployee.middleNameField, mapNewEmp.get("middleName")); //sending middlename
+            sendText(addEmployee.lastNameField, mapNewEmp.get("lastName")); //sending lastname
             String empIdValue = addEmployee.empIdLocator.getAttribute("value");
-            sendText(addEmployee.photograph, mapNewEmp.get("Photograph"));
-            if(!addEmployee.checkBox.isSelected()){
+            sendText(addEmployee.photograph, mapNewEmp.get("Photograph")); //sending photo
+            if(!addEmployee.checkBox.isSelected()){ // in here we are saying if the check box  is not selected(!) then go inside and click check box
                 click(addEmployee.checkBox);
             }
-            sendText(addEmployee.createusernameField, mapNewEmp.get("username"));
-            sendText(addEmployee.createpasswordField, mapNewEmp.get("password"));
-            sendText(addEmployee.confirmpasswordField, mapNewEmp.get("confirmPassword"));
+            sendText(addEmployee.createusernameField, mapNewEmp.get("username")); //sending username
+            sendText(addEmployee.createpasswordField, mapNewEmp.get("password"));//sending password
+            sendText(addEmployee.confirmpasswordField, mapNewEmp.get("confirmPassword"));//confirm password
             click(addEmployee.saveButton);
             System.out.println("click taken on save button");
             //verification is in home-work
@@ -155,7 +159,7 @@ public class AddEmployeeStpes extends CommonMethods {
             sendText(employeeList.empSearchIdField, empIdValue);
             click(employeeList.searchButton);
 
-            //verifying the employee added from the excel file
+            //verifying the employee added(multiple employee) from the excel file
 
             List<WebElement> rowData =
                     driver.findElements(By.xpath("//*[@id='resultTable']/tbody/tr"));
@@ -167,7 +171,8 @@ public class AddEmployeeStpes extends CommonMethods {
                 String rowText = rowData.get(i).getText();
                 System.out.println(rowText);
 
-                String expectedData = empIdValue + " " + mapNewEmp.get("firstName")
+                String expectedData = empIdValue + " " + mapNewEmp.get("firstName") /* the reason i put this expectedData inside the for loop
+                       is because i am check multiple data from Excel sheet , so for each iterator it will take each row. */
                         + " " + mapNewEmp.get("middleName") + " " + mapNewEmp.get("lastName");
 
                 //verifying the exact details  of the employee

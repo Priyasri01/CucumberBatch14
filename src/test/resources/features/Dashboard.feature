@@ -1,5 +1,5 @@
 Feature: Dashboard functionality
-  @sprint3 @regression @tc1102
+  @sprint3 @regression @tc1101
   Scenario: Verify dashboard
     #Given user is navigated to HRMS application
     When user enters valid username and valid password

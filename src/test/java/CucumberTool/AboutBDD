@@ -214,17 +214,17 @@ In frame work we have two separate branch for  Java  and Non-Java
  Java --> in java part, we write all java class
  Non-Jave---> in non-java part, we write non-java part such as Features, config etc
 
-under test Package by default  we have java folder and we created a resource directory also .
-all the java related part(setpdefcalss,Runner class,utils and so on) will be under Java branch and all the non-Java part(features,config and so on) will be under resource directory .
+under test Package by default  we had java package and we created a resource directory also .
+all the java related part(pages,steps,runner,utils and so on) will be under Java branch and all the non-Java part(features,config, testData and so on) will be under resource directory .
 
 under java branch we have the following package and each package has it's own class.
 
-stepsDefinition(package) --- For every feature file we are creating separate class for steps definition  under Steps package.-->for all step definition
+-steps(package) --- For every feature file we are creating separate class for steps definition  under Steps package.-->for all step definition
 -DashbaordSteps(class)
 -loginSteps(class) and so on..
 
 utils(package)-- whatever things  that are common for complete framework(project), it will go under untils package.--->for all comman class for complete framework
--CommonMethods(class) --whatever method which common for my project i will right in this class.(ex:openBrowserAndLaunchApplication and so on..)
+-CommonMethods(class) --whatever method which are common for my project i will right in this class.(ex:openBrowserAndLaunchApplication(), closeBrowser(), getWait()and so on..)
 -configReader(class)---This class, will carry methods which help in read/load  and retrieve the data from the properties file , by just passing the parameterized data.(note: in here we will pass only the reference variable for Path)
 -constants(class) and so on.. ---this class , will carry all the path of all the files which are not changeable  through the  project which we call it as constant. (ex:config.properties path will always constant , excel path will be the same, report path , screen shot path and    so on..will be same)
 
@@ -428,12 +428,28 @@ Hooks are applicable for whole project (for all the feature files)
 Background is applicable for one feature file and varies from file to file
 First Hooks execute then background execute then scenario execute
 
+======================================================================================================
+
+class:06
+
+Recap:
+
 Note : cucumber allow you to pass the data directly from your feature file.
 
 can we add the employee using automation script(meaning from feature file)--- yes we can but not only single employee we can also add multiple employee
 
+What is the term called for data taking from a file? DDT and in common language they will say passing data  from external source.
+
 what is DDT?
 When  one test case execute against multiple sets of data we called it data driven testing.
+
+ Recap- Page object model with PageInitializer class
+           in this initializer class,we initialize objects for all the  of page classes inside the method  called (intializePageObjects()) and we called this method in commonMethod class
+           inside the openBrowser method.
+
+           we created a collection point in steps classes:
+           - step class call the method from CommonMethod class and calling the locators from respective page classes using the object of that class.
+
 
 example:
 Feature: Add Employee
@@ -523,7 +539,7 @@ Feature: Dashboard  functionality
      public void user_verify_dashboard_page() {
          System.out.println("Batch 14 is happy now");
      }
- // note this step definition we added recently when they as to verify the dashboard tags.
+ // note this step definition we added recently when they as to verify the dashboard tags.( for above @sprint2)
      @Then("user verify all the dashboard tabs")
      public void user_verify_all_the_dashboard_tabs(DataTable dataTable) {
          List<String> expectedTabs = dataTable.asList();  /*we are getting the data in list because the  data is coming from feature file carry only the value
@@ -552,17 +568,21 @@ Feature: Dashboard  functionality
 Different between Scenario outline & Data Table:
 
    Examples table(Scenario outline)-- hooks and background execute every time as per the data set(ex: if we have 4 data entry, it will execute 4 times  hook , 4 times background and 4 times scenario)
-   Data Table--- hooks and background will execute just one time and everytime data table.
+   Data Table--- hooks and background will execute just one time and everytime data table will execute.
+
+
+   Note: All these approach/concept(passing direct value in feature file ex:@test , Scenario Outline ex:@tc1105 & data table ex:@datatable) ,  can applicable only if you want to implement small amount of data. In case if you want to implement larges amount of data then we want approach excelReader.
+
   @excel
   Scenario: Adding multiple employees using excel file
-    When user adds multiple employee from excel using "EmployeeData" and verify it
+    When user adds multiple employee from excel using "EmployeeData" and verify it // note in here we provided name of the sheet
 
-    class 06:
 
-    Recap- Page object model with PageInitializer class
-    in this initializer class,we initialize objects for all the  of page classes and call the method(intializePageObjects()) in commonMethod class
-    inside the openBrowser method.
 
-    we created a collection point in steps classes:
-    - step class call the method from CommonMethod class and calling the locators from respective page classes using the object of that class.
+           Recap- Page object model with PageInitializer class
+           in this initializer class,we initialize objects for all the  of page classes inside the method  called (intializePageObjects()) and we called this method in commonMethod class
+           inside the openBrowser method.
+
+           we created a collection point in steps classes:
+           - step class call the method from CommonMethod class and calling the locators from respective page classes using the object of that class.
 

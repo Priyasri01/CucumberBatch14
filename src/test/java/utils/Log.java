@@ -1,6 +1,7 @@
 package utils;
 
-import org.apache.log4j.*;
+
+import org.apache.log4j.Logger;
 
 public class Log {
 
@@ -14,13 +15,13 @@ public class Log {
     public static void startTestCase(String testCaseName){
         Log.info("**");
         Log.info("**");
-        Log.info("############   " + testCaseName + " ################");
+        Log.info("***********************************  " + testCaseName + " **************************************");
         Log.info("**");
         Log.info("**");
     }
 
     public static void endTestCase(String testCaseName){
-        Log.info("##################################");
+        Log.info("##################################"); //to print something in log file.  we type log.info ...it's similar to sout we do to print something in console.
         Log.info("##########################################");
         Log.info("############   " + testCaseName + " ################");
         Log.info("##########################");

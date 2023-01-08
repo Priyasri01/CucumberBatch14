@@ -1,9 +1,6 @@
 package steps;
 
-import pages.AddEmployeePage;
-import pages.DashboardPage;
-import pages.EmployeeListPage;
-import pages.LoginPage;
+import pages.*;
 
 public class PageInitializer { /*in here we are creating object for all the page class ,
  as we know the main purpose of the framework is so flexible , maintainable , well organized.
@@ -15,6 +12,11 @@ public class PageInitializer { /*in here we are creating object for all the page
     public static AddEmployeePage addEmployee;
 
     public static EmployeeListPage employeeList;
+    public static QualificationPage qualification;
+
+    public static PersonalPage personalPage;
+
+    public static AdminPage adminPage;
     public static void intializePageObjects(){ /*  we call this method on commonmethod class Inside the OpenBrowserAndLauchApplication()method.
          because once we launch the application then only we will process the testcases on the respective pages/window/screen
          that's why we are calling this method after the launch method and also we are calling this method  only one time in the commonmethod it's will take care all page process.
@@ -25,6 +27,9 @@ public class PageInitializer { /*in here we are creating object for all the page
         dashboard = new DashboardPage();
         addEmployee= new AddEmployeePage();
         employeeList= new EmployeeListPage();
+        qualification=new QualificationPage();
+        personalPage= new PersonalPage();
+        adminPage=new AdminPage();
     }
 
 }

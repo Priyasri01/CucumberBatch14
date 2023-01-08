@@ -12,7 +12,9 @@ C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\runners\SmokeRunner.ja
 C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\pages\AddEmployeePage.java
 C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\steps\LoginSteps.java
 C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\utils\ConfigReader.java
+C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\steps\QualificationSteps.java
 C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\utils\CommonMethods.java
+C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\pages\QualificationPage.java
 C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\steps\EmployeeSearchSteps.java
 C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\pages\DashboardPage.java
 C:\Users\priya\IdeaProjects\CucumberBatch14\src\test\java\CucumberTool\RunnerClass.java

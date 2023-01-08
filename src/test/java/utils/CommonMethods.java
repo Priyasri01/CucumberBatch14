@@ -2,7 +2,6 @@ package utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.xml.DOMConfigurator;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -15,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CommonMethods extends PageInitializer { /*we created this commonMethods class and store all the common methods(like open Browser, launch application , close the browser,
@@ -41,10 +41,18 @@ public class CommonMethods extends PageInitializer { /*we created this commonMet
         driver.get(ConfigReader.getPropertyValue("url")); // in here we are calling the getPropertyValue()method from configReader class to launch the application.
         driver.manage().timeouts().implicitlyWait(Constants.IMPLICIT_WAIT, TimeUnit.SECONDS); //in here we provided the implicit wait(global wait)
         intializePageObjects(); // now we are calling this method to utilize it.
+  /*   DOMConfigurator.configure("log4j.xml"); //calling the  file what we created under target for configuration
+        Log.startTestCase("My First test case is login test"); //calling the method from the log class.
+        Log.info("My login is  going on");
+        Log.warning("My test case might fail"); */
+
 
     }
 
 public static void closeBrowser(){ // create this method to close the browser
+       /* Log.info("My test case is about to complete");
+        Log.endTestCase("This is my login test case again");*/
+
         driver.quit();
 }
 
@@ -71,9 +79,23 @@ public static void closeBrowser(){ // create this method to close the browser
         getWait().until(ExpectedConditions.elementToBeClickable(element));//step2:wait until your condition met with in the given frame time
     }
 
+    public static void waitForVisibility(WebElement element){
+
+        getWait().until(ExpectedConditions.visibilityOf(element));
+    }
+
     public static void click(WebElement element){ //actual  use of these  methods(58&64) is for the click operation
         waitForClickability(element); //this method we are calling over here for the element (basically , it will go to line 64 and wait util excepted conditions met with in the given time frame.
         element.click(); //then do the click operation.
+    }
+
+    private static WebDriverWait createExplicitWait() {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Constants.EXPLICIT_WAIT);
+        return webDriverWait;
+    }
+    public static void waitForElementToBeClickable(WebElement element) {
+        createExplicitWait().until(ExpectedConditions.elementToBeClickable(element));
+        //element.click();
     }
 
  /*
@@ -140,6 +162,63 @@ public static Select getSelObj(WebElement element){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         return sdf.format(date);
+    }
+
+    public static void handleDropdown(WebElement element, String text) {
+        Select select = new Select(element);
+
+        List<WebElement> options = select.getOptions();
+
+        for (WebElement value : options) {
+            String optionText = value.getText();
+
+            if (optionText.equals(text)) {
+                select.selectByVisibleText(text);
+                break;
+            }
+        }
+    }
+
+    /**
+     * chooseDateFromCalendar Method
+     *
+     * This method needs the following information to function:
+     *
+     * @param element - the element to be clicked on to reveal the calendar
+     * @param monthDropdown - the xpath to the dropdown for month
+     * @param yearDropdown - the xpath to the dropdown for year
+     * @param dayElements - A List<WebElements> object that contains all of the td
+     * @param monthOptionValue - The option value associated with the month you want... ie 1
+     * @param year - the year you want... ie 2022
+     * @param day - The day you want... ie 3
+     */
+    public static void chooseDateFromCalendar(WebElement element,
+                                              WebElement monthDropdown,
+                                              WebElement yearDropdown,
+                                              List<WebElement> dayElements,
+                                              String monthOptionValue,
+                                              String year,
+                                              String day) {
+
+        waitForElementToBeClickable(element);
+
+        WebDriverWait wait = createExplicitWait();
+        wait.until(ExpectedConditions.elementToBeClickable(monthDropdown));
+
+        Select select = new Select(monthDropdown);
+        select.selectByVisibleText(monthOptionValue);
+
+        select = new Select(yearDropdown);
+        select.selectByVisibleText(year);
+
+
+        for (WebElement dayElement : dayElements) {
+            if (dayElement.getText().equals(day)) {
+                dayElement.click();
+                break;
+            }
+        }
+
     }
 
 }
