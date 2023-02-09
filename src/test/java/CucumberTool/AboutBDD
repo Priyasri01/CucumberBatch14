@@ -118,7 +118,8 @@ note: we have to take same verion for cumcumber.java & cucumber.junit to maintai
 
 -webDriverManager( since we have  webdriver manager in depedency  we don't have to take care the path(which is link the class to webdriver to
  excute by using setproperty)  and we  don't have to take care space management (meaning for cross browser testing i don't want to add the webbroweser like firefox,chrome and ect).
-and we don't have to take care of the compatibility on the project. our project always want to be lighter weight(meaning try to have the projects in MB's)so all these things will be taken care by webdriver manager, therefore we having this depedency.
+and we don't have to take care of the compatibility on the project. our project always want to be lighter weight(meaning try to have the projects in MB's)
+so all these things will be taken care by webdriver manager, therefore we having this depedency.
 
 -apache-poi (to load the file ,read the file , to extract the data and to convert the data into java format , we need to have all  these appache-poi and commons-io dependency )
 
@@ -386,7 +387,8 @@ Rules - Hooks class must be created inside steps package.Why?because according t
 Background -
              if we have same steps in all  scenarios in same feature file we can put them in  background and will execute before each scenario.
              it is applicable only for one feature file ,  it means for every feature file background will be different
-             steps which are common among all the scenarios of that feature file , will be taken into background but make sure the flow is not broken.
+
+
              if the flow breaks, then we cannot take steps in background after that.  meaning, background has to be in the beginning of each scenario not in the middle or at the end
 
 example:
@@ -469,7 +471,7 @@ Feature: Add Employee
     Then employee added successfully
 
 //note:parameterization testing for add one data
- --we can add one employee using feature file , instead of hardcode data in the steps class. we can just pass values inside the scenario.check the below example @test1
+ --we can add one employee using feature file , instead of hardcode data in the steps class. we can just pass values inside the scenario steps.check the below example @test1
   @test1 #we add the employee using automation script(meaning from feature file).
   Scenario: Adding one employee using feature file
     And user enter "zalam" and "alia"  # we passing direct value

@@ -35,7 +35,7 @@ public class DashboardSteps extends CommonMethods {
 
         for (WebElement ele :dashboard.dashboardTabs)//using this loop to retrieve the webelement from dashboard page.
          {
-            actualTabs.add(ele.getText());// using this add method to get the text from dashboardTabs and store into actualTabs.
+            actualTabs.add(ele.getText());// using this gettext() will get the data from dasboardpage  and using the add method we are store data  into actualTabs.
         }
 
         //printing the text for both feature file and from application, just for our understanding  we are using sout

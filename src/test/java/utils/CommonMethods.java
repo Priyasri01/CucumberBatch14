@@ -2,6 +2,7 @@ package utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -23,7 +24,7 @@ public class CommonMethods extends PageInitializer { /*we created this commonMet
     public static WebDriver driver; //launch in one place and call it the whole class.
 
     public static void openBrowserAndLaunchApplication(){
-        ConfigReader.readProperties(Constants.CONFIGURATION_FILEPATH); // calling method where file is available  and specifying method in which the path is available.
+        ConfigReader.readProperties(Constants.CONFIGURATION_FILEPATH); // calling method where file is available  and specifying variable  in which the path is available.
         switch (ConfigReader.getPropertyValue("browser")){
             case "chrome":
                 WebDriverManager.chromedriver().setup();

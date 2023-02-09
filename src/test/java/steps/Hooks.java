@@ -7,10 +7,12 @@ import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import utils.CommonMethods;
 
 public class Hooks extends CommonMethods { //note we are creating this class so that we don't have to create steps
-    // in feature file for all the scenario. and also we have more functions(generate report, take screenshot and so on) which we can add it here later part
+    // in feature file for all the scenario for the begining steps. and also we have more functions(generate report, take screenshot and so on) which we can add it here later part
 
     @Before//note when we take @Before make sure you are taking io.cucumber  not junit
     public void preCondition(){
+
+
         openBrowserAndLaunchApplication();
     }
 

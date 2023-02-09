@@ -20,8 +20,8 @@ import org.junit.runner.RunWith;
          so that it will stop actual execution and scans all the steps Quick and provide us missing step definition in the console. copy the steps definition and create class for it.
         please not once we created class for the step definition , ensure that we changed back the dryRun = false , so that it will execute the code.  */
 
-       tags = "@US15Priyasri", /*using "tags" to group the scenario for specific type of execution,
-       note we are running two test cases by proving the same tag name in the feature file.*/
+      // tags = "@db", /*using "tags" to group the scenario for specific type of execution,
+      // note we are running two test cases by proving the same tag name in the feature file.*/
 
         monochrome = true, //to remove irrelavant information from console, you need to set monochrome to true
 // to generate report  we need plugin of ruuner class, when we generate any report the report should be in target folder

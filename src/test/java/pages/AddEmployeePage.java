@@ -7,7 +7,7 @@ import utils.CommonMethods;
 
 public class AddEmployeePage extends CommonMethods {
 
-    @FindBy(id = "firstName")
+    @FindBy(id = "firstName") // creating separate class for each pages(like login page, dashboard page,and so on) and having their locators for all the web element. with the help of find by we are finding the locator and store in instance varaible . and by using the page factory we are intial  the instance varible.
     public WebElement firstNameField;
 
     @FindBy(id = "lastName")

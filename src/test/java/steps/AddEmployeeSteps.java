@@ -6,17 +6,19 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import pages.AddEmployeePage;
 import utils.CommonMethods;
 import utils.Constants;
+import utils.DataBaseReader;
 import utils.ExcelReader;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class AddEmployeeStpes extends CommonMethods {
+public class AddEmployeeSteps extends CommonMethods { //The Steps class is typically implemented as a set of methods, with each method corresponding to a single step in the feature file
 
+    String id; // created this global instance to utilize in different method in this different class
+    String fName, lName;
     @When("user clicks on PIM option")
     public void user_clicks_on_pim_option() {
        // WebElement pimOption = driver.findElement(By.id("menu_pim_viewPimModule"));
@@ -57,6 +59,8 @@ public class AddEmployeeStpes extends CommonMethods {
 
     @When("user enter {string} and {string}")
     public void user_enter_and(String firstName, String lastName) {
+        fName=firstName; //storing the firsName value which we get it from feature file into fName so that we can using this variable for verification
+        lName=lastName;
         sendText(addEmployee.firstNameField, firstName); /*in this method (on fist parameter we provide the object name where we have all the locator for the web element
         and on the next parameter we mentioned where the data is available . note the data comes from feature file.*/
         sendText(addEmployee.lastNameField, lastName);
@@ -187,6 +191,29 @@ we are sending the data to the application(hrms) with the help of sendtext()meth
                 e.printStackTrace();
             }
         }
+    }
+
+    @When("user captures employee id")
+    public void user_captures_employee_id() {
+
+        id=addEmployee.empIdLocator.getAttribute("value");
+    }
+
+
+
+    @When("added employee is displayed in database")
+    public void added_employee_is_displayed_in_database() {
+
+        String query=DatabaseSteps.getFnameLnameQuery()+id;
+
+        List<Map<String, String>> dataFromDatabase=DataBaseReader.getListOfMapsFromRset(query);
+
+        String fNameFromDb=dataFromDatabase.get(0).get("emp_firstname");
+        String lNameFromDb=dataFromDatabase.get(0).get("emp_lastname");
+
+        Assert.assertEquals(fName, fNameFromDb);
+        Assert.assertEquals(lName, lNameFromDb);
+
     }
 
 }
